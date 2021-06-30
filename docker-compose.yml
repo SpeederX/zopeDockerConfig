@@ -1,0 +1,53 @@
+services:
+    db:
+        container_name: db
+        image: postgres:9.1.14
+        ports:
+            - "5432:56666"
+        environment:
+            POSTGRES_USER: "postgres"
+            POSTGRES_PASSWORD: "postgres"
+            PGDATA: "/data/postgres"
+        volumes:
+            - postgres:/data/postgres
+            - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+             
+    frontend:
+        container_name: frontend
+        build:
+            context: .
+            dockerfile: Dockerfile-react
+        image: webapp:frontend
+        ports:
+            - "3000:3000"
+        command: bash -c "npm start"
+    backend:
+        depends_on:
+            - db
+        container_name: backend
+        build:
+            context: .
+            dockerfile: Dockerfile-zope
+        image: webapp:backend
+        ports:
+            - "8080:8080"
+        command: >
+            bash -c "/usr/local/zope/Zope-2.13/bin/mkzopeinstance -d /usr/local/zope/ZopeInstance -u admin:admin &&
+            cp -r /tmp/ZPsycopgDA-master/ZPsycopgDA /usr/local/zope/ZopeInstance/Products &&
+            /usr/local/zope/ZopeInstance/bin/zopectl start"
+    dbmanager:
+                container_name: dbmanager
+                image: "dpage/pgadmin4:4.24"
+                environment:
+                    PGADMIN_DEFAULT_EMAIL: admin
+                    PGADMIN_DEFAULT_PASSWORD: admin
+                    PGADMIN_CONFIG_SERVER_MODE: "False"
+                    PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+                volumes:
+                    - pgadmin:/var/lib/pgadmin
+                    - ./docker_pgadmin_servers.json:/pgadmin4/servers.json
+                ports:
+                    - "15433:8888"
+volumes:
+    postgres:
+    pgadmin:

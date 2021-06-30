@@ -1,1 +1,0 @@
-docker run -ti --name zopeInstance -p 8080:8080 user/zope-instance1 "bash | ZopeInstance/bin/zopectl start"

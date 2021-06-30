@@ -43,11 +43,3 @@ EXPOSE 8080
 RUN mkdir ZopeInstance
 RUN chown zope ZopeInstance
 USER zope
-
-# creazione istanza a partire da Zope-2.13, copia di zpsycopg nell'istanza e avvio istanza
-# RUN /usr/local/zope/Zope-2.13/bin/mkzopeinstance -d /usr/local/zope/ZopeInstance -u admin:admin
-# RUN cp -r /tmp/ZPsycopgDA-master/ZPsycopgDA /usr/local/zope/ZopeInstance/Products
-# RUN ZopeInstance/bin/zopectl start
-
-
-
