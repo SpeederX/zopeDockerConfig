@@ -1,6 +1,6 @@
-### Complete - unprobable - stack
+## Full - unprobable - stack
 
-#### How to use it:
+### How to use it:
 
 Get in a shell and type this:
 
@@ -14,7 +14,7 @@ docker-compose up
 **Enjoy it!**
 
 
-#### Node14
+### Node14
 
 Installed:
   - React with folders mounted:
@@ -26,7 +26,7 @@ Installed:
   
 Access React on port 3000
   
-#### Zope 2.13
+### Zope 2.13
 
 Installed:
   - ZPsycoPGDA
@@ -35,9 +35,9 @@ Access on port 8080
 
 Zope daemon does get start with docker-compose up
 
-#### Postgre 9.1.14
+### Postgre 9.1.14
   - Port 56666
-#### Pgadmin
+### Pgadmin
   - Port 8888
 
 
