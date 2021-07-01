@@ -35,9 +35,7 @@ Access on port 8080
 
 Zope daemon does get start with docker-compose up
 
-### Postgre 9.1.14
-  - Port 56666
-### Pgadmin
-  - Port 8888
+### Postgre 12
+  - Port 25643
 
 
