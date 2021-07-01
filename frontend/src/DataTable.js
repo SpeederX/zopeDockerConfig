@@ -2,9 +2,10 @@ import * as React from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import { useState } from 'react';
 
-function DataTable(props){
+class DataTable extends React.Component{
 
     constructor(props){
+        super(props)
         React.Component(props);
         this.state = {
             loading: true,
