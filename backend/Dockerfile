@@ -27,19 +27,37 @@ RUN ./bin/pip install --no-cache-dir \
  -r https://zopefoundation.github.io/Zope/releases/2.13.30/requirements.txt
 # ZSQLMethods
 RUN ./bin/pip install --no-cache-dir 'Products.ZSQLMethods<3.0' 
+
+# SQLAlchemyDA 0.6.2b1 requirements sqlalchemy e z3c.sqlalchemy
+RUN ./bin/pip install sqlalchemy==1.0.0
+
+#RUN ./bin/python2.7 ./lib/python2.7/site-packages/setup.py install
+
+# Getting SQLAlchemy and 
 # ZPsycopgDA (needs matching ZPsycopgDA in instance Products folder)
-RUN cd /tmp && \
-    wget 'https://github.com/psycopg/ZPsycopgDA/archive/master.zip' && \
+WORKDIR /tmp
+RUN wget 'https://github.com/psycopg/ZPsycopgDA/archive/master.zip' && \
     unzip master.zip && \
-    /usr/local/zope/Zope-2.13/bin/pip install --no-cache-dir /tmp/ZPsycopgDA-master
+    wget 'https://github.com/zopefoundation/Products.SQLAlchemyDA/archive/refs/tags/v0.6.2b1.zip' && \
+    unzip v0.6.2b1.zip && \
+    wget "https://github.com/zopefoundation/z3c.sqlalchemy/archive/refs/heads/1.3.zip" && \
+    unzip 1.3.zip
+WORKDIR /usr/local/zope/Zope-2.13
+RUN ./bin/pip install --no-cache-dir /tmp/ZPsycopgDA-master && \
+    cd /tmp/z3c.sqlalchemy-1.3/ && \
+    /usr/local/zope/Zope-2.13/bin/python2.7 setup.py install
+# /tmp/Products.SQLAlchemyDA-0.6.2b1/Products/SQLAlchemyDA must be copied inside ZopeInstance later on.
 
 # create zope user
 RUN groupadd -r --gid 1000 zope && useradd --no-log-init -r -g zope --uid 1000 zope
 
 WORKDIR /usr/local/zope
-EXPOSE 8080
+EXPOSE 8080 8021 1980
 
 # mount your own Zope instance into /usr/local/zope and run its runzope as CMD
 RUN mkdir ZopeInstance
-RUN chown zope ZopeInstance
-USER zope
+#RUN chown zope ZopeInstance
+#USER zope
+RUN /usr/local/zope/Zope-2.13/bin/mkzopeinstance --python=/usr/local/zope/Zope-2.13/bin/python2.7 -d /usr/local/zope/ZopeInstance -u admin:admin &&\
+    cp -r /tmp/ZPsycopgDA-master/ZPsycopgDA /usr/local/zope/ZopeInstance/Products && \
+    cp -r /tmp/Products.SQLAlchemyDA-0.6.2b1/Products/SQLAlchemyDA /usr/local/zope/ZopeInstance/Products

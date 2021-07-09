@@ -8,13 +8,13 @@ WORKDIR /usr/src/app
 # where available (npm@5+)
 COPY package*.json ./
 
-RUN npm install
+RUN npm i --silent
 # If you are building your code for production
 # RUN npm ci --only=production
 
 # Bundle app source
-COPY ./public ./public
-COPY ./src ./src
+COPY ./ ./
+#RUN touch .env && echo "PORT=30485" > .env
 
 EXPOSE 3000
 #CMD [ "npm", "start" ]
