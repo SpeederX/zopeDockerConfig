@@ -14,16 +14,17 @@ services:
         build: ./backend
         ports:
             - 8080:8080
-            - 19820:1980
-            - 8021:8021
+            - 1980:1980
         volumes:
             - ./Extensions:/usr/local/zope/ZopeInstance/Extensions
             - ./backend/data:/usr/local/zope/ZopeInstance/var
+            - ./backend/Models:/usr/local/zope/ZopeInstance/Products/SQLAlchemyDA/Models
             - ./backend/GlobalModules:/usr/local/zope/ZopeInstance/Products/GlobalModules
             - ./backend/zopeConf:/usr/local/zope/ZopeInstance/etc
+            - ./backend/logs:/usr/local/zope/ZopeInstance/log
         # example of psycopg connection string: dbname=postgres user=postgres password=example host=db port=5432
-        # command: >
-        #     bash -c "/usr/local/zope/ZopeInstance/bin/zopectl start"
+        command: >
+            bash -c "/usr/local/zope/ZopeInstance/bin/zopectl start"
     db:
         build: ./db
         container_name: db
