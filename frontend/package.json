@@ -25,7 +25,7 @@
     "dev:watch": "npx concurrently \"npm run build:watch\" \"npm run dev:run\"",
     "dev:run": "npx nodemon lib/index.js"
   },
-  "homepage": "http://sol3.diviteldatacenter.com/public/build",
+  "homepage": "./public/build",
   "eslintConfig": {
     "extends": [
       "react-app",
